@@ -1,0 +1,49 @@
+from SisLoc.classes.cliente import Cliente
+
+
+class Repos_cliente:
+    def __init__(self):
+        self._clientes = list()
+
+    def cadastrar(self, cliente: Cliente):
+        if cliente.get_cpf() in self._clientes:
+            print(f'CPF já cadastrado em outro cliente!')
+        else:
+            self._clientes.append(cliente)
+
+    def buscar(self, cpf: str):
+        for i in self._clientes:
+            if self._clientes[i].get_cpf() == cpf:
+                return self._clientes[i]
+        else:
+            print('Cliente não encontrado.')
+            return None
+
+    def atualizar(self, cliente: Cliente):
+        if cliente not in self._clientes:
+            print('Cliente não encontrado.')
+        else:
+            res = ''
+            while res != '0':
+                print(f'{cliente.imprimir()}\n')
+                res = input(' O que deseja atualizar?\n [1] Nome\n [2] Endereço\n [0] Sair\n ---> ')
+                if res == '1':
+                    cliente.set_nome(input(' Nome: '))
+                elif res == '2':
+                    cliente.set_endereco(input(' Endereço: '))
+                else:
+                    print('Opção inválida!')
+
+    def deletar(self, cpf: str):
+        cliente = self.buscar(cpf)
+        if cliente:
+            self._clientes.remove(cliente)
+        else:
+            print(f'Cliente inexistence!')
+
+    def listar(self):
+        if self._clientes == []:
+            print(f'Repositorio vazio!')
+        else:
+            for cliente in self._clientes:
+                print(cliente.imprimir())
