@@ -1,0 +1,95 @@
+from SisLoc.classes.filme import Filme
+from FUNCOES.funcoes_ap import data, remov_acento
+
+
+class Repos_filme:
+    def __init__(self):
+        self._filmes = list()
+
+    def cadastrar(self, filme: Filme):
+        if filme.get_cod() not in self._filmes:
+            self._filmes.append(filme)
+        else:
+            print('Filme já cadastrado.')
+
+    def buscar(self, codigo: int):
+        i = 0
+        filme = False
+        while filme is False:
+            if self._filmes[i].get_cod == codigo:
+                filme = True
+            else:
+                i += 1
+            if filme is True:
+                return self._filmes[i]
+            else:
+                return None
+
+    def atualizar(self, filme: Filme):
+        if filme not in self._filmes:
+            print(f'Filme não encontrado.')
+        else:
+            res = ''
+            while res != '0':
+                print(f'{filme.imprimir()}\n')
+                res = input(' O que deseja atualizar?\n [1] Título\n [2] Código\n [3] Sinopse\n [4] Data de lançamento\n'
+                            ' [5] Diretor\n [6] Gêneros\n [7] Elenco\n [8] Produtores\n [0] Sair\n ---> ')
+                if res == '1':
+                    filme.set_titulo(input(' Nome: '))
+                elif res == '2':
+                    filme.set_cod(int(input(' Código: ')))
+                elif res == '3':
+                    filme.set_sinopse(input(' Sinopse: '))
+                elif res == '4':
+                    filme.set_lancamento(data())
+                elif res == '5':
+                    filme.set_diretor(input(' Diretor: '))
+                elif res == '6':
+                    opc = ''
+                    while opc != 0:
+                        print(filme.get_genero())
+                        opc = input(' [1] Adicionar gênero\n [2] Remover gênero')
+                        if opc == '1':
+                            filme.add_genero(remov_acento(input(' Gênero: ').upper()))
+                        elif opc == '2':
+                            filme.get_genero().remove(remov_acento(input('Digite o nome que deseja remover: ')).upper())
+                        else:
+                            print('Opção inválida!')
+                elif res == '7':
+                    opc = ''
+                    while opc != 0:
+                        print(filme.get_atores())
+                        opc = input(' [1] Adicionar atriz/ator\n [2] Remover atriz/ator')
+                        if opc == '1':
+                            filme.add_atores(remov_acento(input(' Ator: ').upper()))
+                        elif opc == '2':
+                            filme.get_atores().remove(remov_acento(input('Digite o nome que deseja remover: ')).upper())
+                        else:
+                            print('Opção inválida!')
+                elif res == '8':
+                    opc = ''
+                    while opc != 0:
+                        print(filme.get_produtores())
+                        opc = input(' [1] Adicionar produtor(a)\n [2] Remover produtor(a)')
+                        if opc == '1':
+                            filme.add_produtores(remov_acento(input(' Produtor(a): ').upper()))
+                        elif opc == '2':
+                            filme.get_produtores().remove(remov_acento(input('Digite o nome que deseja remover: ')).upper())
+                        else:
+                            print('Opção inválida!')
+                else:
+                    print(f'Opção inválida!')
+
+    def deletar(self, cod: int):
+        if cod not in self._filmes:
+            print('Filme não cadastrado!')
+        else:
+            filme = self.buscar(cod)
+            self._filmes.remove(filme)
+
+    def listar(self):
+        if self._filmes == []:
+            print(f'Repositorio vazio!')
+        else:
+            for filme in self._filmes:
+                print(filme.imprimir())
