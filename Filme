@@ -1,0 +1,100 @@
+from datetime import date
+
+
+class Filme:
+    def __init__(self, codigo: int, titulo: str):
+        self._codigo = codigo
+        self._titulo = titulo
+        self._genero = list()
+        self._lancamento = date.today()
+        self._diretor = str()
+        self._atores = list()
+        self._sinopse = str()
+        self._produtores = list()
+        self._preco = float()
+        self._copias = int()
+
+    def set_cod(self, codigo: int):
+        self._codigo = codigo
+
+    def get_cod(self) -> int:
+        return self._codigo
+
+    def set_titulo(self, titulo: str):
+        self._titulo = titulo
+
+    def get_titulo(self):
+        return self._titulo
+
+    def set_genero(self, genero: list):
+        self._genero = genero
+
+    def get_genero(self):
+        return self._genero
+
+    def add_genero(self, genero: str):
+        self._genero.append(genero)
+
+    def set_lancamento(self, lancamento: date):
+        self._lancamento = lancamento #format BR
+
+    def get_lancamento(self):
+        return self._lancamento
+
+    def set_diretor(self, diretor: str):
+        self._diretor = diretor
+
+    def get_diretor(self):
+        return self._diretor
+
+    def set_atores(self, atores: list):
+        self._atores = atores
+
+    def get_atores(self):
+        return self._atores
+
+    def add_atores(self, atores: str):
+        self._atores.append(atores)
+
+    def set_sinopse(self, sinopse: str):
+        self._sinopse = sinopse
+
+    def get_sinopse(self):
+        return self._sinopse
+
+    def set_produtores(self, produtores: list):
+        self._produtores = produtores
+
+    def get_produtores(self):
+        return self._produtores
+
+    def add_produtores(self, produtores: str):
+        self._produtores.append(produtores)
+
+    def set_preco(self, preco: float):
+        self._preco = preco
+
+    def get_preco(self):
+        return self._preco
+
+    def set_n_copias(self, copias: int):
+        self._copias = copias
+
+    def get_n_copias(self):
+        return self._copias
+
+    def imprimir(self) -> None:
+        print(f'| Título: {self._titulo}')
+        print(f'| Cod.: {self._codigo}')
+        print(f'| Sinopse: {self._sinopse}')
+        print(f'| Data de lançamento: {self._lancamento}')
+        print(f'| Diretor: {self._diretor}')
+        print(f'| Gêneros: ')
+        for i in range(len(self._genero)):
+            print(f'|    > {self._genero[i]}')
+        print(f'| Elenco: ')
+        for j in range(len(self._atores)):
+            print(f'|    > {self._atores[j]}')
+        print(f'| Produtores: ')
+        for i in range(len(self._produtores)):
+            print(f'|    > {self._produtores[i]}')
