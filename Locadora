@@ -1,0 +1,84 @@
+from SisLoc.repositorio.rep_cliente import Repos_cliente, Cliente
+from SisLoc.repositorio.rep_filme import Repos_filme, Filme
+from SisLoc.repositorio.rep_operacao import Repos_operacao, Reserva, Locacao
+from FUNCOES.funcoes_ap import data
+
+
+class Locadora:
+    def __init__(self, rep_clientes: Repos_cliente, rep_filmes: Repos_filme, rep_operacoes: Repos_operacao):
+        self._clientes = rep_clientes
+        self._filmes = rep_filmes
+        self._operacoes = rep_operacoes
+
+    def cadastrar_cliente(self, cliente: Cliente):
+        self._clientes.cadastrar(cliente)
+
+    def buscar_cliente(self, cpf: str):
+        self._clientes.buscar(cpf)
+
+    def atualizar_cadastro(self, cliente: Cliente):
+        self._clientes.atualizar(cliente)
+
+    def remover_cliente(self, cpf: str):
+        self._clientes.deletar(cpf)
+
+    def cadastrar_filme(self, filme: Filme):
+        self._filmes.cadastrar(filme)
+
+    def buscar_filme(self, codigo: int):
+        self._filmes.buscar(codigo)
+
+    def atualizar_filme(self, filme: Filme):
+        self._filmes.atualizar(filme)
+
+    def remover_filme(self, codigo: int):
+        self._filmes.deletar(codigo)
+
+    def reservar_filme(self, cpf: str, codigo: int):
+        bcliente = self._clientes.buscar(cpf)
+        bfilme = self._filmes.buscar(codigo)
+        if bcliente and bfilme:
+            if self._operacoes.n_loc_ativo_filme(codigo) == bfilme.get_n_copias():
+                reserva = Reserva(cpf, codigo)
+                reserva.set_prioridade(self._operacoes.n_res_ativo_filme(codigo))
+                reserva.set_ativo(True)
+                self._operacoes.cadastrar(reserva)
+
+    def finalizar_reserva_filme(self, cpf: str, codigo: int):
+        self._operacoes.del_reserva(cpf, codigo)
+
+    def locar_filme(self, cpf: str, codigo: int):
+        bcliente = self._clientes.buscar(cpf)
+        bfilme = self._filmes.buscar(codigo)
+        if bcliente and bfilme:
+            if self._operacoes.n_loc_ativo_filme(codigo) < bfilme.get_n_copias():
+                locacao = Locacao(cpf, codigo)
+                locacao.set_periodo(data()) # ??????????????????????????????????????????????????????????????????????????
+                locacao.set_ativo(True)
+                self._operacoes.cadastrar(locacao)
+
+    def devolver_filme(self, cpf: str, codigo: int):
+        bcliente = self._clientes.buscar(cpf)
+        bfilme = self._filmes.buscar(codigo)
+        bloc = self._operacoes.buscar_locacoes(cpf)
+        if bcliente and bfilme and bloc:
+            if codigo in bloc:
+                self._operacoes.del_locacao(cpf, codigo)
+
+    def imprimir_historico_filme(self, cpf: str):
+        bcliente = self._clientes.buscar(cpf)
+        if bcliente:
+            self._operacoes.listar_loc(cpf)
+
+    def imprimir_mais_locados(self, top: int): # ex: top 3, top 5...
+        filmes = self._filmes.listar()
+        ranking = dict()
+        for i in range(len(filmes)):
+            nome = filmes[i].get_nome()
+            n = self._operacoes.n_loc_filme(filmes[i].get_cod())
+            ranking[n] = nome
+        rank = sorted(ranking)
+        for j in range(top):
+            r = rank[j]
+            print(f'{j+1}°: {r[1]} - {r[0]} locações.')
+
