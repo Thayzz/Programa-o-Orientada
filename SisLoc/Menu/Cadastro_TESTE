@@ -1,0 +1,157 @@
+from SisLoc.locadora.locadora import *
+import datetime
+
+
+def CadastroTESTE(locadora):
+    # ----- CADASTRANDO CLIENTES ---------------------------------------------------------------------------------------
+    C1 = Cliente('08974512324')
+    C1.set_nome('Thays Ferreira Uchôa Albuquerque')
+    C1.set_endereco('Rua A')
+    locadora.cadastrar_cliente(C1)
+
+    C2 = Cliente('07689923312')
+    C2.set_nome('Adriane Valentim Ferreira')
+    C2.set_endereco('Rua B')
+    locadora.cadastrar_cliente(C2)
+
+    C3 = Cliente('01123486618')
+    C3.set_nome('João Davi Oliveira Barbosa')
+    C3.set_endereco('Rua C')
+    locadora.cadastrar_cliente(C3)
+
+    C4 = Cliente('67312788410')
+    C4.set_nome('Bruna Barreto Mesquita')
+    C4.set_endereco('Rua D')
+    locadora.cadastrar_cliente(C4)
+
+    C5 = Cliente('54460820716')
+    C5.set_nome('Laura de Lima Mendes')
+    C5.set_endereco('Rua E')
+    locadora.cadastrar_cliente(C5)
+
+    C6 = Cliente('32180731152')
+    C6.set_nome('Pedro Coelho Sampaio Filho')
+    C6.set_endereco('Rua F')
+    locadora.cadastrar_cliente(C6)
+
+    C7 = Cliente('02215378212')
+    C7.set_nome('Matheus Silva Matos')
+    C7.set_endereco('Rua G')
+    locadora.cadastrar_cliente(C7)
+
+    C8 = Cliente('12209832246')
+    C8.set_nome('Ruan Rodrigues de Sousa')
+    C8.set_endereco('Rua H')
+    locadora.cadastrar_cliente(C8)
+
+    # ----- CADASTRANDO FILMES -----------------------------------------------------------------------------------------
+    F1 = Filme(900054, 'A Múmia')
+    F1.set_preco(3.50)
+    F1.set_sinopse('Na Mesopotâmia, séculos atrás, Ahmanet tem seus planos interrompidos quando estava prestes a invocar Set, o deus da morte, para que juntos pudessem governar o mundo. Mumificada, ela é aprisionada dentro de uma tumba. Nos dias atuais, o local é descoberto por acidente por Nick Morton e Chris Vail, saqueadores de artefatos antigos que estavam na região em busca de raridades. Ao lado da pesquisadora Jenny Halsey, eles investigam a tumba recém-descoberta e, acidentalmente, despertam Ahmanet.')
+    F1.set_lancamento(datetime.date(1999, 6, 18))
+    F1.set_atores(['Rachel Weiz', 'Brendan Frase', 'John Hannah', 'Arnold Vosloo', 'Oded Fehr', 'Patricia Velásquez'])
+    F1.set_genero(['Terror', 'Fantasia', 'Ação', 'Mistério', 'Aventura', 'Comédia'])
+    F1.set_produtores(['Sean Daniel', 'James Jacks'])
+    F1.set_diretor('Stephen Sommers')
+    F1.set_n_copias(3)
+    locadora.cadastrar_filme(F1)
+
+    F2 = Filme(153006, 'Star Wars: O Império Contra-Ataca')
+    F2.set_preco(3.50)
+    F2.set_sinopse('Yoda treina Luke Skywalker para ser um cavaleiro Jedi. Han Solo corteja a Princesa Leia enquanto Darth Vader retorna para combater as forças rebeldes que tentam salvar a galáxia.')
+    F2.set_lancamento(datetime.date(1980, 7, 21))
+    F2.set_atores(['Mark Hamill', 'Harrison Ford', 'Carrie Fisher', 'David Prowse', 'Billy Dee Williams'])
+    F2.set_genero(['Ação', 'Épico', 'Ficção científica', 'Fantasia', 'Aventura', 'Ópera espacial'])
+    F2.set_produtores(['Lucasfilm Ltd.'])
+    F2.set_diretor('Irvin Kershner')
+    F2.set_n_copias(1)
+    locadora.cadastrar_filme(F2)
+
+    F3 = Filme(503607, 'Dirty Dancing - Ritmo Quente')
+    F3.set_preco(3.50)
+    F3.set_sinopse('Na esperança de curtir sua juventude, uma jovem fica decepcionada ao descobrir que vai passar o verão de 1963 com os pais em um resort na sonolenta região de Catskills. Mas sua sorte muda quando ela conhece o instrutor de dança do resort, Johnny, um rapaz com um passado bem diferente do dela. Quando ele a coloca como sua nova parceira, os dois acabam se apaixonando.')
+    F3.set_lancamento(datetime.date(1987, 9, 25))
+    F3.set_atores(['Patrick Swayze', 'Jennifer Grey', 'Jerry Orbach', 'Cynthia Rhodes'])
+    F3.set_genero(['Drama', 'Romance', 'Musical'])
+    F3.set_produtores(['Linda Gottlieb'])
+    F3.set_diretor('Emile Ardolino')
+    F3.set_n_copias(2)
+    locadora.cadastrar_filme(F3)
+
+    F4 = Filme(630109, 'Grease - Nos Tempos da Brilhantina')
+    F4.set_preco(3.50)
+    F4.set_sinopse('Na Califórnia de 1959, a boa moça Sandy e o metido Danny se apaixonam e aproveitam um verão inesquecível na praia. Quando voltam às aulas, eles descobrem que frequentam a mesma escola. Danny lidera a gangue dos T-Birds, um grupo que gosta de jaquetas de couro e muito gel no cabelo, e Sandy passa tempo com as Pink Ladies, lideradas pela firme e sarcástica Rizzo. Quando os dois se reúnem, Sandy percebe que Danny não é o mesmo por quem se apaixonou, e ambos precisam mudar caso queiram ficar juntos.')
+    F4.set_lancamento(datetime.date(1978, 6, 13))
+    F4.set_atores(['John Travolta', 'Olivia Newton-John', 'Stockard Channing', 'Eve Arden', 'Frankie Avalon'])
+    F4.set_genero(['Musical', 'Romance', 'Comédia'])
+    F4.set_produtores(['Robert Stigwood', 'Allan Carr'])
+    F4.set_diretor('Randal Kleiser')
+    F4.set_n_copias(3)
+    locadora.cadastrar_filme(F4)
+
+    F5 = Filme(109236, 'Jurassic Park - Parque dos Dinossauros')
+    F5.set_preco(3.50)
+    F5.set_sinopse('Os paleontólogos Alan Grant, Ellie Sattler e o matemático Ian Malcolm fazem parte de um seleto grupo escolhido para visitar uma ilha habitada por dinossauros criados a partir de DNA pré-histórico. O idealizador do projeto e bilionário John Hammond garante a todos que a instalação é completamente segura. Mas após uma queda de energia, os visitantes descobrem, aos poucos, que vários predadores ferozes estão soltos e à caça.')
+    F5.set_lancamento(datetime.date(1993, 6, 13))
+    F5.set_atores(['Sam Neill', 'Laura Dem', 'Jeff Goldblum', 'Joseph Mazzello', 'Ariana Richards'])
+    F5.set_genero(['Aventura', 'Ação', 'Ficção científica'])
+    F5.set_produtores(['Kathleen Kennedy', 'Gerald R. Molen'])
+    F5.set_diretor('Steven Spielberg')
+    F5.set_n_copias(1)
+    locadora.cadastrar_filme(F5)
+
+    F6 = Filme(710009, 'Footloose - Ritmo Louco')
+    F6.set_preco(3.50)
+    F6.set_sinopse('Recém-chegado de Chicago, Ren McCormak fica frustrado quando descobre que a pequena cidade para a qual se mudou proíbe a dança e a música pop. Com a ajuda de seu novo amigo Willard e da adolescente rebelde Ariel, ele enfrenta uma árdua batalha para mudar a situação local. Mas o reverendo Shaw Moore, pai de Ariel, acaba se transformando em um grande obstáculo.')
+    F6.set_lancamento(datetime.date(1984, 7, 13))
+    F6.set_atores(['Kevin Bacon', 'Lori Singer', 'John Lithgow', 'Dianne Wiest', 'Chris Penn', 'Sarah Jessica Parker'])
+    F6.set_genero(['Musical', 'Drama'])
+    F6.set_produtores(['Lewis J. Rachmil', 'Craig Zadan'])
+    F6.set_diretor('Herbert Ross')
+    F6.set_n_copias(2)
+    locadora.cadastrar_filme(F6)
+
+    F7 = Filme(807005, 'O Senhor dos Anéis: A Sociedade do Anel')
+    F7.set_preco(3.50)
+    F7.set_sinopse('Em uma terra fantástica e única, um hobbit recebe de presente de seu tio um anel mágico e maligno que precisa ser destruído antes que caia nas mãos do mal. Para isso, o hobbit Frodo tem um caminho árduo pela frente, onde encontra perigo, medo e seres bizarros. Ao seu lado para o cumprimento desta jornada, ele aos poucos pode contar com outros hobbits, um elfo, um anão, dois humanos e um mago, totalizando nove seres que formam a Sociedade do Anel.')
+    F7.set_lancamento(datetime.date(2002, 1, 1))
+    F7.set_atores(['Elijah Wood', 'Ian McKellen', 'Sam Austin', 'Viggo Mortensen', 'Orlando Bloom', 'Billy Boyd', 'Sean Bean', 'Christopher Lee'])
+    F7.set_genero(['Aventura', 'Épico', 'Fantasia'])
+    F7.set_produtores(['Barrie M. Osborne', 'Peter Jackson', 'Fran Walsh', 'Tim Sanders'])
+    F7.set_diretor('Peter Jackson')
+    F7.set_n_copias(4)
+    locadora.cadastrar_filme(F7)
+
+    F8 = Filme(210018, 'Jumanji')
+    F8.set_preco(3.50)
+    F8.set_sinopse('Alan Parrish desapareceu quando era menino e ninguém acredita na história de seu amigo de que ele foi sugado por um jogo de tabuleiro. Vinte e seis anos depois, duas crianças acham o jogo no sótão e, quando começam a jogar, Alan é libertado. Mas a disputa ainda não acabou e Alan precisa terminar antes de ser realmente solto.')
+    F8.set_lancamento(datetime.date(1996, 3, 29))
+    F8.set_atores(['Robin Williams', 'Bonnie Hunt', 'Kirsten Dunst', 'Bradley Pierce', 'Jonathan Hyde'])
+    F8.set_genero(['Aventura', 'Fantasia', 'Comédia'])
+    F8.set_produtores(['Scott Kroopf', 'William Teitler'])
+    F8.set_diretor('Joe Johnston')
+    F8.set_n_copias(3)
+    locadora.cadastrar_filme(F8)
+
+    # ----- OPERAÇÕES --------------------------------------------------------------------------------------------------
+    # LOCAÇÃO:  LOTR(4)  GREASE(3)  AMUMIA(3)  STARWARS(1)  DIRTYDANCING(2)  JURASSICPARK(1)  FOOTLOOSE(2)  JUMANJI(3)
+    locadora.locar_filme('08974512324', 807005)  # LOTR
+    locadora.locar_filme('08974512324', 630109)  # GREASE
+    locadora.locar_filme('02215378212', 153006)  # STARWARS
+    locadora.locar_filme('54460820716', 807005)  # LOTR
+    locadora.locar_filme('07689923312', 807005)  # LOTR
+    locadora.locar_filme('01123486618', 109236)  # JURASSIC PARK
+    locadora.locar_filme('67312788410', 210018)  # JUMANJI
+    locadora.locar_filme('12209832246', 900054)  # A MUMIA
+    locadora.locar_filme('32180731152', 710009)  # FOOTLOOSE
+    locadora.locar_filme('07689923312', 503607)  # DIRTY DANCING
+    locadora.locar_filme('01123486618', 807005)  # LOTR
+    locadora.locar_filme('08974512324', 900054)  # A MUMIA
+    locadora.locar_filme('12209832246', 210018)  # JUMANJI
+    locadora.locar_filme('01123486618', 210018)  # JUMANJI
+
+    # RESERVA:
+    locadora.reservar_filme('07689923312', 153006)  # STARWARS
+    locadora.reservar_filme('12209832246', 807005)  # LOTR
+    locadora.reservar_filme('08974512324', 109236)  # JURASSIC PARK
+    locadora.reservar_filme('07689923312', 210018)  # JUMANJI
