@@ -1,0 +1,328 @@
+from SisLoc.menu.cadTESTE import *
+
+
+if __name__ == '__main__':
+    rep_cliente = Repos_cliente()
+    rep_filme = Repos_filme()
+    rep_operacao = Repos_operacao()
+    locadora = Locadora(rep_cliente, rep_filme, rep_operacao)
+
+    CadastroTESTE(locadora)
+
+    res = ''
+    while res != '0':
+        res = input('o---------------------------------------------------------o\n'
+                    '|                        S I S L O C                      |\n'
+                    'o---------------------------------------------------------o\n'
+                    '|    [1] Cadastro                                         |\n'
+                    '|    [2] Clientes                                         |\n'
+                    '|    [3] Filmes                                           |\n'
+                    '|    [0] Sair                                             |\n'
+                    'o---------------------------------------------------------o\n'
+                    '         >>> ')
+
+        if res == '1':
+            res_cad = ''
+            while res_cad != '0':
+                res_cad = input('o---------------------------------------------------------o\n'
+                                '|                        S I S L O C                      |\n'
+                                '|                      c a d a s t r o                    |\n'
+                                'o---------------------------------------------------------o\n'
+                                '|    [1] Cadastrar cliente                                |\n'
+                                '|    [2] Atualizar cliente                                |\n'
+                                '|    [3] Cadastrar filme                                  |\n'
+                                '|    [4] Atualizar filme                                  |\n'
+                                '|    [5] Deletar cliente                                  |\n'
+                                '|    [6] Deletar filme                                    |\n'
+                                '|    [0] Voltar                                           |\n'
+                                'o---------------------------------------------------------o\n'
+                                '         >>> ')
+                if res_cad == '1':
+                    nome = input('| Nome: ')
+                    cpf = input('| CPF: ')
+                    ender = input('| Endereço: ')
+                    cliente = Cliente(cpf)
+                    cliente.set_nome(nome)
+                    cliente.set_endereco(ender)
+                    locadora.cadastrar_cliente(cliente)
+
+                elif res_cad == '2':
+                    cliente = locadora.buscar_cliente(input('| Digite o CPF do cliente que deseja atualizar: '))
+                    if cliente:
+                        atual_cli = ''
+                        while atual_cli != '0':
+                            cliente.imprimir()
+                            atual_cli = input('|     O que deseja atualizar?\n'
+                                              '| [1] Nome\n'
+                                              '| [2] Endereço\n'
+                                              '| [0] Concluir\n')
+                            if atual_cli == '1':
+                                cliente.set_nome(input('| Nome: '))
+                            elif atual_cli == '2':
+                                cliente.set_endereco(input('| Endereço: '))
+                            elif atual_cli == '0':
+                                locadora.atualizar_cadastro(cliente)
+                            else:
+                                print('Opção inválida!\n')
+
+
+                elif res_cad == '3':
+                    titulo = input('| Título: ').upper()
+                    codigo = int(input('| Código: '))
+                    preco = float(input('| Preço: '))
+                    n_copias = int(input('| Número de cópias: '))
+                    diretor = input('| Diretor: ').upper()
+                    print('| Data de lançamento: ')
+                    lancamento = data()
+                    sinopse = input('| Sinopse: ')
+                    print('| Elenco: ')
+                    elenco = list()
+                    res = ''
+                    while res != 'N':
+                        elenco.append(input('|   Nome: '))
+                        res = input('  Adicionar mais um nome? [S/N]').upper()
+                        if res != 'S' and 'N':
+                            print('Opção inválida!')
+                    print('| Gêneros: ')
+                    generos = list()
+                    res = ''
+                    while res != 'N':
+                        generos.append(input('|   Gênero: '))
+                        res = input('  Adicionar mais um gênero? [S/N]').upper()
+                        if res != 'S' and 'N':
+                            print('Opção inválida!')
+                    print('| Produtores: ')
+                    produtores = list()
+                    res = ''
+                    while res != 'N':
+                        produtores.append(input('Nome: '))
+                        res = input(' Adicionar mais um nome? [S/N]').upper()
+                        if res != 'S' and 'N':
+                            print('Opção inválida!')
+
+                    filme = Filme(codigo, titulo)
+                    filme.set_preco(preco)
+                    filme.set_sinopse(sinopse)
+                    filme.set_diretor(diretor)
+                    filme.set_lancamento(lancamento)
+                    filme.set_n_copias(n_copias)
+                    filme.set_genero(generos)
+                    filme.set_atores(elenco)
+                    filme.set_produtores(produtores)
+
+                    locadora.cadastrar_filme(filme)
+
+                elif res_cad == '4':
+                    filme = locadora.buscar_filme(int(input('| Digite o código do filme que deseja atualizar: ')))
+                    if not filme:
+                        print('Filme não encontrado!')
+                    else:
+                        atual_fil = ''
+                        while atual_fil != '0':
+                            print(f'\n PREÇO: {filme.get_preco()}')
+                            filme.imprimir()
+                            atual_fil = input('| O que deseja atualizar?\n'
+                                              '| [1] Preço \n'
+                                              '| [2] Número de cópias\n'
+                                              '| [3] Diretor\n'
+                                              '| [4] Data de lançamento\n'
+                                              '| [5] Sinopse\n'
+                                              '| [6] Elenco\n'
+                                              '| [7] Gêneros\n'
+                                              '| [8] Produtores\n'
+                                              '| [0] Concluir\n')
+                            if atual_fil == '1':
+                                filme.set_preco(float(input('| Preço: ')))
+                            elif atual_fil == '2':
+                                filme.set_n_copias(int(input('| Número de cópias: ')))
+                            elif atual_fil == '3':
+                                filme.set_diretor(input('| Diretor: '))
+                            elif atual_fil == '4':
+                                print('| Data de lançamento: ')
+                                filme.set_lancamento(data())
+                            elif atual_fil == '5':
+                                filme.set_sinopse('| Sinopse: ')
+                            elif atual_fil == '6':
+                                res_ator = ''
+                                while res_ator != '0':
+                                    res_ator = input('| [1] Adicionar nome\n'
+                                                     '| [2] Remover nome\n'
+                                                     '| [0] Concluir\n')
+                                    if res_ator == '1':
+                                        filme.add_atores(input('| Nome: '))
+                                    elif res_ator == '2':
+                                        novo_elenco = filme.get_atores()
+                                        for i, ator in enumerate(novo_elenco):
+                                            print(f'| {i}: {ator}')
+                                        indice = int(input('  Digite o índice que deseja remover: '))
+                                        if indice < len(novo_elenco):
+                                            novo_elenco.pop(indice)
+                                            filme.set_atores(novo_elenco)
+                                        else:
+                                            print('Opção inválida!')
+                                    elif res_ator == '0':
+                                        print('Elenco atualizado!')
+                                    else:
+                                        print('Opção inválida!')
+                            elif atual_fil == '7':
+                                res_gen = ''
+                                while res_gen != '0':
+                                    res_gen = input('| [1] Adicionar gênero\n'
+                                                    '| [2] Remover gênero\n'
+                                                    '| [0] Concluir\n')
+                                    if res_gen == '1':
+                                        filme.add_genero(input('| Gênero: '))
+                                    elif res_gen == '2':
+                                        novo_generos = filme.get_genero()
+                                        for i, genero in enumerate(novo_generos):
+                                            print(f'| {i}: {genero}')
+                                        indice = int(input('  Digite o índice que deseja remover: '))
+                                        if indice < len(novo_generos):
+                                            novo_generos.pop(indice)
+                                            filme.set_genero(novo_generos)
+                                        else:
+                                            print('Opção inválida!')
+                                    elif res_gen == '0':
+                                        print('Gêneros atualizados!')
+                                    else:
+                                        print('Opção inválida!')
+                            elif atual_fil == '8':
+                                res_prod = ''
+                                while res_prod != '0':
+                                    res_prod = input('| [1] Adicionar nome\n'
+                                                     '| [2] Remover nome\n'
+                                                     '| [0] Concluir\n')
+                                    if res_prod == '1':
+                                        filme.add_produtores(input('| Nome: '))
+                                    elif res_prod == '2':
+                                        novo_produtores = filme.get_produtores()
+                                        for i, produtor in enumerate(novo_produtores):
+                                            print(f'| {i}: {produtor}')
+                                        indice = int(input('  Digite o índice que deseja remover: '))
+                                        if indice < len(novo_produtores):
+                                            novo_produtores.pop(indice)
+                                            filme.set_produtores(novo_produtores)
+                                        else:
+                                            print('Opção inválida!')
+                                    elif res_prod == '0':
+                                        print('Produtores atualizados!')
+                                    else:
+                                        print('Opção inválida!')
+                            elif atual_fil == '0':
+                                locadora.atualizar_filme(filme)
+                            else:
+                                print('Opção inválida!\n')
+                elif res_cad == '5':
+                    cpf = input('| Digite o CPF do cliente que deseja remover: ')
+                    cliente = rep_cliente.buscar(cpf)
+                    if not cliente:
+                        print('Cliente não encontrado!')
+                    else:
+                        cliente.imprimir()
+                        res_del = input('| Deseja deletar o cliente permanentemente?\n'
+                                        '| [1] SIM\n'
+                                        '| [2] NÃO\n')
+                        if res_del == '1':
+                            rep_cliente.deletar(cpf)
+                        else:
+                            print('Opção inválida!')
+                elif res_cad == '6':
+                    codigo = int(input('| Digite o código do filme que deseja remover: '))
+                    filme = rep_filme.buscar(codigo)
+                    if not filme:
+                        print('Filme não encontrado!')
+                    else:
+                        filme.imprimir()
+                        res_del = input('| Deseja deletar o filme permanentemente?\n'
+                                        '| [1] SIM\n'
+                                        '| [2] NÃO\n')
+                        if res_del == '1':
+                            rep_filme.deletar(codigo)
+                        elif res_del == '2':
+                            pass
+                        else:
+                            print('Opção inválida!')
+                elif res_cad == '0':
+                    pass
+                else:
+                    print('Opção inválida!')
+
+        elif res == '2':
+            res_clien = ''
+            while res_clien != '0':
+                res_clien = input('o---------------------------------------------------------o\n'
+                                  '|                        S I S L O C                      |\n'
+                                  '|                      c l i e n t e s                    |\n'
+                                  'o---------------------------------------------------------o\n'
+                                  '|    [1] Listar clientes                                  |\n'
+                                  '|    [2] Buscar reservas ativas                           |\n'
+                                  '|    [3] Buscar histórico do cliente                      |\n'
+                                  '|    [0] Voltar                                           |\n'
+                                  'o---------------------------------------------------------o\n'
+                                  '         >>> ')
+                if res_clien == '1':
+                    print('\no------------------- C L I E N T E S ---------------------o\n')
+                    print(f'{"   ENDEREÇO":33} ', f'{"NOME"} ')
+                    for cliente in rep_cliente.listar():
+                        cliente.imprimir()
+                elif res_clien == '2':
+                    cpf = input('CPF: ')
+                    reservas_ativas = rep_operacao.buscar_reservas(cpf)
+                    if reservas_ativas:
+                        print(f'|---> RESERVAS ATIVAS DE  {locadora.buscar_cliente(cpf).get_nome()}')
+                        for reserva in reservas_ativas:
+                            print(f'| {reserva.get_data()} | {locadora.buscar_filme(reserva.get_cod()).get_titulo()} | Cód.: {reserva.get_cod()}')
+                    else: print('Nenhuma reserva encontrada!')
+                elif res_clien == '3':
+                    cpf = input('CPF: ')
+                    hist_locacoes = rep_operacao.listar_loc(cpf)
+                    if hist_locacoes:
+                        print(f'|---> HISTÓRICO DE LOCAÇÕES DE  {locadora.buscar_cliente(cpf).get_nome()}')
+                        locadora.imprimir_historico_cliente(cpf)
+                    else: print('Nenhuma locação encontrada!')
+                elif res_clien == '0':
+                    pass
+                else:
+                    print('Opção inválida!')
+
+        elif res == '3':
+            res_filme = ''
+            while res_filme != '0':
+                res_filme = input('o---------------------------------------------------------o\n'
+                                  '|                        S I S L O C                      |\n'
+                                  '|                        f i l m e s                      |\n'
+                                  'o---------------------------------------------------------o\n'
+                                  '|    [1] Listar filmes                                    |\n'
+                                  '|    [2] Locar filme                                      |\n'
+                                  '|    [3] Devolver filme                                   |\n'
+                                  '|    [4] Reservar filme                                   |\n'
+                                  '|    [5] Finalizar reserva                                |\n'
+                                  '|    [6] RANKING!                                         |\n'
+                                  '|    [0] Voltar                                           |\n'
+                                  'o---------------------------------------------------------o\n'
+                                  '         >>> ')
+                if res_filme == '1':
+                    filmes = rep_filme.listar()
+                    if filmes:
+                        print('\no--------------------- F I L M E S -----------------------o\n'
+                              '|---------------------------------------------------------|\n')
+                        for filme in filmes:
+                            print(f' PREÇO: {filme.get_preco()}')
+                            filme.imprimir()
+                            print('|---------------------------------------------------------|\n')
+                elif res_filme == '2':
+                    locadora.locar_filme(input('CPF: '), int(input('COD.: ')))
+                elif res_filme == '3':
+                    locadora.devolver_filme(input('CPF: '), int(input('COD.: ')))
+                elif res_filme == '4':
+                    locadora.reservar_filme(input('CPF: '), int(input('COD.: ')))
+                elif res_filme == '5':
+                    locadora.finalizar_reserva_filme(input('CPF: '), int(input('COD.: ')))
+                elif res_filme == '6':
+                    top = int(input('Digite a quantidade de posições que deseja no ranking: '))
+                    print('\no--------------- TOP FILMES MAIS LOCADOS -----------------o')
+                    locadora.imprimir_mais_locados(top)
+                elif res_filme == '0':
+                    pass
+                else:
+                    print('Opção inválida!')
