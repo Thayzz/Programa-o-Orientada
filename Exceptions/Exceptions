@@ -1,25 +1,22 @@
 class ClienteNFError(Exception):
-    def __init__(self, cpf: str, message=f'Cliente não encontrado.'):
-        self.cpf = cpf
+    def __init__(self, message=f'Cliente não encontrado.'):
         self.message = message
         super().__init__(self.message)
+
 
 class FilmeNFError(Exception):
-    def __init__(self, codigo: int, message='Filme não encontrado.'):
-        self.codigo = codigo
+    def __init__(self, message='Filme não encontrado.'):
         self.message = message
         super().__init__(self.message)
+
 
 class LocNFError(Exception):
-    def __init__(self, cpf: str, codigo: int, message='Locação não encontrada.'):
-        self.cpf = cpf
-        self.codigo = codigo
+    def __init__(self, message='Locação não encontrada.'):
         self.message = message
         super().__init__(self.message)
 
+
 class ResNFError(Exception):
-    def __init__(self, cpf: str, codigo: int, message='Reserva não encontrada.'):
-        self.cpf = cpf
-        self.codigo = codigo
+    def __init__(self, message='Reserva não encontrada.'):
         self.message = message
         super().__init__(self.message)
