@@ -1,0 +1,42 @@
+from datetime import date
+from textwrap import *
+
+
+# Verifica se o CPF possui 11 digitos e se é um número
+def valid_CPF(cpf: str):
+    if len(cpf) == 11 and cpf.isdigit():
+        return True
+
+# Criar data
+def data():
+    try:
+        dia = int(input(' Dia: '))
+        mes = int(input(' Mês: '))
+        ano = int(input(' Ano: '))
+        return date(ano, mes, dia)
+    except ValueError: print('Data inválida!')
+
+
+# Quebra as linhas de uma palavra
+def quebrar_linhas(frase: str):
+    lista_linhas = TextWrapper(width=56).wrap(text=frase)
+    frase_jus = ''
+    for linha in lista_linhas:
+        frase_jus += linha + '\n'
+    return frase_jus
+
+
+def buscar_locacao(codigo: int, locacoes: list):
+    try:
+        for locacao in locacoes:
+            if locacao.get_cod() == codigo:
+                return locacao
+    except TypeError: return None
+
+
+def buscar_reserva(codigo: int, reservas: list):
+    try:
+        for reserva in reservas:
+            if reserva.get_cod() == codigo:
+                return reserva
+    except TypeError: return None
