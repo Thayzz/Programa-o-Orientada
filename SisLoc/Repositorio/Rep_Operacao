@@ -1,0 +1,109 @@
+from SisLoc.classes.operacao import Operacao
+from SisLoc.classes.reserva import Reserva
+from SisLoc.classes.locacao import Locacao
+from FUNCOES.funcoes_ap import *
+from MyExceptions.MyExceptions import *
+
+
+class Repos_operacao:
+    def __init__(self):
+        self._operacoes = list()
+
+    def cadastrar(self, operacao: Operacao):
+        operacao.set_ativo(True)
+        self._operacoes.append(operacao)
+        print('OPERAÇÃO CADASTRADA COM SUCESSO!')
+
+    def buscar_reservas(self, cpf: str):
+        reservas = list()
+        for operacao in self._operacoes:
+            if isinstance(operacao, Reserva):
+                if operacao.get_cpf() == cpf and operacao.is_ativo() is True:
+                    reservas.append(operacao)
+        if not reservas:
+            return None
+        else:
+            return reservas
+
+    def buscar_locacoes(self, cpf: str):
+        locacoes = list()
+        for operacao in self._operacoes:
+            if isinstance(operacao, Locacao):
+                if operacao.get_cpf() == cpf and operacao.is_ativo() is True:
+                    locacoes.append(operacao)
+        if not locacoes:
+            return None
+        else:
+            return locacoes
+
+    def del_locacao(self, cpf: str, codigo: int):
+        loc = buscar_locacao(codigo, self.buscar_locacoes(cpf))
+        if not loc:
+            print(LocNFError(cpf, codigo))
+        else:
+            for operacao in self._operacoes:
+                if isinstance(operacao, Locacao):
+                    if operacao.get_cpf() == cpf and operacao.get_cod() == codigo:
+                        if operacao.is_ativo() is True:
+                            operacao.set_ativo(False)
+                            print('LOCAÇÃO ENCERRADA COM SUCESSO!')
+                        else:
+                            print('ERRO: LOCAÇÃO INATIVA!')
+
+    def del_reserva(self, cpf: str, codigo: int):
+        res = buscar_reserva(codigo, self.buscar_reservas(cpf))
+        if not res:
+            print(ResNFError(cpf, codigo))
+        else:
+            for operacao in self._operacoes:
+                if isinstance(operacao, Reserva):
+                    if operacao.get_cpf() == cpf and operacao.get_cod() == codigo:
+                        if operacao.is_ativo() is True:
+                            operacao.set_ativo(False)
+                            print('RESERVA ENCERRADA COM SUCESSO!')
+                        else:
+                            print('ERRO: RESERVA INATIVA!')
+
+    def listar_loc(self, cpf: str):
+        operacoes_cliente = list()
+        for operacao in self._operacoes:
+            if isinstance(operacao, Locacao) and operacao.get_cpf() == cpf:
+                operacoes_cliente.append(operacao)
+        if not operacoes_cliente:
+            return None
+        else:
+            return operacoes_cliente
+
+    def n_loc_cliente(self, cpf: str):
+        count = 0
+        for operacao in self._operacoes:
+            if isinstance(operacao, Locacao) and operacao.get_cpf() == cpf:
+                count += 1
+        return count
+
+    def n_loc_filme(self, codigo: int):
+        count = 0
+        for operacao in self._operacoes:
+            if isinstance(operacao, Locacao) and operacao.get_cod() == codigo:
+                count += 1
+        return count
+
+    def n_loc_ativo_cliente(self, cpf: str):
+        loc = self.buscar_locacoes(cpf)
+        return len(loc)
+
+    def n_loc_ativo_filme(self, codigo: int):
+        count = 0
+        for operacao in self._operacoes:
+            if isinstance(operacao, Locacao):
+                if operacao.get_cod() == codigo and operacao.is_ativo() is True:
+                    count += 1
+        return count
+
+    def n_res_ativo_filme(self, codigo: int):
+        count = 0
+        for operacao in self._operacoes:
+            if isinstance(operacao, Reserva):
+                if operacao.get_cod() == codigo and operacao.is_ativo() is True:
+                    count += 1
+        return count
