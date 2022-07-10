@@ -1,5 +1,5 @@
 class ClienteNFError(Exception):
-    def __init__(self, message=f'Cliente não encontrado.'):
+    def __init__(self, message='Cliente não encontrado.'):
         self.message = message
         super().__init__(self.message)
 
