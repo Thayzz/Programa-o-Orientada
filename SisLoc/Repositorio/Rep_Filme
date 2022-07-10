@@ -1,0 +1,56 @@
+from SisLoc.classes.filme import Filme
+from MyExceptions.MyExceptions import FilmeNFError
+
+
+class Repos_filme:
+    def __init__(self):
+        self._filmes = list()
+
+    def cadastrar(self, filme: Filme):
+        fil_exist = False
+        for fil in self._filmes:
+            if fil.get_cod() == filme.get_cod():
+                fil_exist = True
+        if fil_exist is True:
+            print('ERRO: CÓDIGO JÁ FOI CADASTRADO!')
+        else:
+            self._filmes.append(filme)
+            print('FILME CADASTRADO COM SUCESSO!')
+
+    def buscar(self, codigo: int):
+        try:
+            for filme in self._filmes:
+                if filme.get_cod() == codigo:
+                    return filme
+        except IndexError: return None
+        except FilmeNFError as errofil: print(errofil)
+
+    def atualizar(self, filme_: Filme):
+        filme = self.buscar(filme_.get_cod())
+        try:
+            filme.set_cod(filme.get_cod())
+            filme.set_titulo(filme.get_titulo())
+            filme.set_lancamento(filme.get_lancamento())
+            filme.set_diretor(filme.get_diretor())
+            filme.set_n_copias(filme.get_n_copias())
+            filme.set_sinopse(filme.get_sinopse())
+            filme.set_preco(filme.get_preco())
+            filme.set_produtores(filme.get_produtores())
+            filme.set_atores(filme.get_atores())
+            filme.set_genero(filme.get_genero())
+            print('FILME ATUALIZADO COM SUCESSO!')
+        except FilmeNFError(filme.get_cod()) as errofil:
+            print(errofil)
+
+    def deletar(self, codigo: int):
+        filme = self.buscar(codigo)
+        try:
+            self._filmes.remove(filme)
+            print('FILME DELETADO COM SUCESSO!')
+        except FilmeNFError(filme.get_cod()) as errofil:
+            print(errofil)
+
+    def listar(self):
+        try:
+            return self._filmes
+        except TypeError: return None
