@@ -1,0 +1,109 @@
+from SisLoc.repositorio.rep_cliente import *
+from SisLoc.repositorio.rep_filme import *
+from SisLoc.repositorio.rep_operacao import *
+from MyExceptions.MyExceptions import *
+from FUNCOES.funcoes_ap import *
+
+
+class Locadora:
+    def __init__(self, rep_clientes: Repos_cliente, rep_filmes: Repos_filme, rep_operacoes: Repos_operacao):
+        self._clientes = rep_clientes
+        self._filmes = rep_filmes
+        self._operacoes = rep_operacoes
+
+    def cadastrar_cliente(self, cliente: Cliente):
+        self._clientes.cadastrar(cliente)
+
+    def buscar_cliente(self, cpf: str):
+        return self._clientes.buscar(cpf)
+
+    def atualizar_cadastro(self, cliente: Cliente):
+        self._clientes.atualizar(cliente)
+
+    def remover_cliente(self, cpf: str):
+        self._clientes.deletar(cpf)
+
+    def cadastrar_filme(self, filme: Filme):
+        self._filmes.cadastrar(filme)
+
+    def buscar_filme(self, codigo: int):
+        return self._filmes.buscar(codigo)
+
+    def atualizar_filme(self, filme: Filme):
+        self._filmes.atualizar(filme)
+
+    def remover_filme(self, codigo: int):
+        self._filmes.deletar(codigo)
+
+    def reservar_filme(self, cpf: str, codigo: int):
+        cliente = self._clientes.buscar(cpf)
+        filme = self._filmes.buscar(codigo)
+        if not filme: print('Filme não encontrado!')
+        if not cliente: print('Cliente não encontrado!')
+        else:
+            if not self._operacoes.n_loc_ativo_filme(filme.get_cod()) == filme.get_n_copias():
+                print('CÓPIAS DISPONÍVEIS NO ACERVO!')
+            else:
+                operacao = Reserva(cliente.get_cpf(), filme.get_cod())
+                operacao.set_prioridade(self._operacoes.n_res_ativo_filme(filme.get_cod()) + 1)
+                operacao.set_ativo(True)
+                self._operacoes.cadastrar(operacao)
+
+    def finalizar_reserva_filme(self, cpf: str, codigo: int):
+        reserva = buscar_reserva(codigo, self._operacoes.buscar_reservas(cpf))
+        try:
+            self._operacoes.del_reserva(reserva.get_cpf(), reserva.get_cod())
+        except: print(ResNFError(cpf, codigo))
+
+    def locar_filme(self, cpf: str, codigo: int):
+        cliente = self._clientes.buscar(cpf)
+        filme = self._filmes.buscar(codigo)
+        if not filme: print('Filme não encontrado!')
+        if not cliente: print('Cliente não encontrado!')
+        else:
+            if cliente and filme:
+                reserva = buscar_reserva(filme.get_cod(), self._operacoes.buscar_reservas(cliente.get_cpf()))
+                res_pri = False
+                if reserva is not None and reserva.get_prioridade() == 1:
+                    res_pri = True
+                if res_pri is True or self._operacoes.n_loc_ativo_filme(filme.get_cod()) < filme.get_n_copias():
+                    operacao = Locacao(cliente.get_cpf(), filme.get_cod())
+                    operacao.set_periodo(3)
+                    operacao.set_ativo(True)
+                    self._operacoes.cadastrar(operacao)
+                else:
+                    print('Nenhuma cópia disponível!')
+
+    def devolver_filme(self, cpf: str, codigo: int):
+        locacao = buscar_locacao(codigo, self._operacoes.listar_loc(cpf))
+        try:
+            self._operacoes.del_locacao(locacao.get_cpf(), locacao.get_cod())
+        except: print(LocNFError(cpf, codigo))
+
+    def imprimir_historico_cliente(self, cpf: str):
+        cliente = self._clientes.buscar(cpf)
+        try:
+            locacoes = self._operacoes.listar_loc(cliente.get_cpf())
+            if locacoes:
+                for locacao in locacoes:
+                    print(f'| {locacao.get_data()} | {self._filmes.buscar(locacao.get_cod()).get_titulo()} | Cód.: {locacao.get_cod()}')
+            else:
+                print('\t  NENHUMA LOCAÇÃO CADASTRADA!')
+        except ClienteNFError(cpf) as errocli:
+            print(errocli)
+
+    def imprimir_mais_locados(self, top: int):
+        filmes = self._filmes.listar()
+        if not filmes:
+            print('LISTA DE FILMES VAZIA!')
+        else:
+            ranking = list()
+            for filme in filmes:
+                nome = filme.get_titulo()
+                n = self._operacoes.n_loc_filme(filme.get_cod())
+                ranking.append(tuple([nome, n]))
+            rank = sorted(ranking, reverse=True, key= lambda x: x[1])
+            print(f'{"RANK°":2} ', f'{"N°LOC":5} ', f'\t  {"TÍTULO":15}')
+            for indice, (titulo, n_loc) in enumerate(rank):
+                if indice < top:
+                    print(f'{(indice + 1):2}°\t', f'{n_loc:5}\t   ' f'{titulo:10}')
