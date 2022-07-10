@@ -1,0 +1,50 @@
+from SisLoc.classes.cliente import Cliente
+from MyExceptions.MyExceptions import ClienteNFError
+from FUNCOES.funcoes_ap import *
+
+
+class Repos_cliente:
+    def __init__(self):
+        self._clientes = list()
+
+    def cadastrar(self, cliente: Cliente):
+        cli_exist = False
+        for cli in self._clientes:
+            if cli.get_cpf() == cliente.get_cpf():
+                cli_exist = True
+        if cli_exist is True:
+            print('CPF JÁ FOI CADASTRADO!')
+        else:
+            if valid_CPF(cliente.get_cpf()):
+                self._clientes.append(cliente)
+                print('CLIENTE CADASTRADO COM SUCESSO!')
+            else:
+                print('CPF INVÁLIDO!')
+
+    def buscar(self, cpf: str):
+        try:
+            for cliente in self._clientes:
+                if cliente.get_cpf() == cpf:
+                    return cliente
+        except IndexError: return None
+        except: print(ClienteNFError(cpf))
+
+    def atualizar(self, cliente_: Cliente):
+        cliente = self.buscar(cliente_.get_cpf())
+        try:
+            cliente.set_nome(cliente.get_nome())
+            cliente.set_endereco(cliente.get_endereco())
+            print('CLIENTE ATUALIZADO COM SUCESSO!')
+        except: print(ClienteNFError(cliente.get_cpf()))
+
+    def deletar(self, cpf: str):
+        cliente = self.buscar(cpf)
+        try:
+            self._clientes.remove(cliente)
+            print('CLIENTE DELETADO COM SUCESSO!')
+        except: print(ClienteNFError(cliente.get_cpf()))
+
+    def listar(self):
+        try:
+            return self._clientes
+        except TypeError: return None
